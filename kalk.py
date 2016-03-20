@@ -24,10 +24,12 @@ args = parser.parse_args()
 val = args.values
 if args.action == "+":
     print(val[0]+val[1])
-if args.action == "-":
+elif args.action == "-":
     print(val[0]-val[1])
-if args.action == "*":
+elif args.action == "*":
     print(val[0]*val[1])
-if args.action == "/":
+elif args.action == "/":
     print(val[0]/val[1])
+else:
+    print("Некоректная операция")
 
