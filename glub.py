@@ -32,22 +32,31 @@ class graf_analiz():
     def __init__(self):
         a = None
         b = None
-        func = input("Введите функцию: ")
+        func = None
+        #func = input("Введите функцию: ")
+        a,b = self.DFS()
+        self.draws(a,b,"DFS")
+        a,b,c,l = self.BFS("1",self.graf())
+        self.draws(a,b,"BFS")
+        self.komp_sviaz("1",self.graf())
+        self.shortest_length("1",self.graf())
+        a,b = self.shortest_path("1",self.graf(),"5")
+        self.draws(a,b,"SP")
         if func == "DFS":
             a,b = self.DFS()
         elif func == "BFS":
-            a,b,c,l = self.BFS(input("Введите стаpтовую вершину: "),self.graf())
+            a,b,c,l = self.BFS("1",self.graf())
         elif func == "KS":
-            self.komp_sviaz(input("Введите стартовую вершину: "),self.graf())
+            self.komp_sviaz("1",self.graf())
         elif func == "SL":
-            self.shortest_length(input("Введите стартовую вершину: "),self.graf())
+            self.shortest_length("1",self.graf())
         elif func == "SP":
-            a,b = self.shortest_path(input("Введите стартовую вершину: "),self.graf(),input("Введите конечную вершину: "))
+            a,b = self.shortest_path("1",self.graf(),"5")
         else:
             print("Вы ввели несуществующую команду, попробуйие ввести одну из этих: DFS, BFS, KS, SL или SP")
             self.__init__()
-        if a:
-            self.draws(a,b)
+        #if a:
+        #   self.draws(a,b)
 
     def DFS(self):
         mat = self.graf()
@@ -124,13 +133,15 @@ class graf_analiz():
 
     def shortest_length(self,start,mat):
         a,b,c,length = self.BFS(start,mat)
+        sl = open("SL.txt","w")
         for i in length:
             if length[i] != float("+inf"):
-                print("Расстояние из", start,"в",i,"равно",length[i])
+                #print("Расстояние из", start,"в",i,"равно",length[i])
+                sl.write(str(i)+":"+str(length[i])+"\n")
             else:
-                print("Из",start,"в",i,"нет пути.")
+                #print("Из",start,"в",i,"нет пути.")
 
-    def draws(self,G,listed):
+    def draws(self,G,listed,func):
         listn = []
         pos = nx.spring_layout(G)
         for i in G:
@@ -140,7 +151,8 @@ class graf_analiz():
         nx.draw_networkx_edges(G,pos,edgelist=listed,width=2,alpha=0.5,edge_color='r')
         nx.draw_networkx_labels(G,pos,font_size=16)
         plt.axis('off')
-        plt.savefig("labels_and_colors.png")
+        name = str(func) + ".png"
+        plt.savefig(name)
         plt.show()
     def drawss(self,lsG):
         edgec = ['r','b','g','y','w']
@@ -154,7 +166,7 @@ class graf_analiz():
             nx.draw_networkx_edges(lsG[x][0],pos,edgelist=lsG[x][1],width=2,alpha=0.5,edge_color=edgec[x])
             nx.draw_networkx_labels(lsG[x][0],pos,font_size=16)
         plt.axis('off')
-        plt.savefig("labels_and_colors.png")
+        plt.savefig("KS.png")
         plt.show()
 
     def recur(self,G,start,f,list,g):
