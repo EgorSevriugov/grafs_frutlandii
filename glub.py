@@ -34,7 +34,7 @@ class graf_analiz():
         b = None
         func = None
         #func = input("Введите функцию: ")
-        a,b = self.DFS()
+        a,b = self.DFS("1")
         self.draws(a,b,"DFS")
         a,b,c,l = self.BFS("1",self.graf())
         self.draws(a,b,"BFS")
@@ -43,7 +43,7 @@ class graf_analiz():
         a,b = self.shortest_path("1",self.graf(),"5")
         self.draws(a,b,"SP")
         if func == "DFS":
-            a,b = self.DFS()
+            a,b = self.DFS("1")
         elif func == "BFS":
             a,b,c,l = self.BFS("1",self.graf())
         elif func == "KS":
@@ -52,15 +52,11 @@ class graf_analiz():
             self.shortest_length("1",self.graf())
         elif func == "SP":
             a,b = self.shortest_path("1",self.graf(),"5")
-        else:
-            print("Вы ввели несуществующую команду, попробуйие ввести одну из этих: DFS, BFS, KS, SL или SP")
-            self.__init__()
         #if a:
         #   self.draws(a,b)
 
-    def DFS(self):
+    def DFS(self,start):
         mat = self.graf()
-        start = input("Введите стартовую вершину: ")
         fired = []
         list = []
         g = nx.Graph()
@@ -140,6 +136,7 @@ class graf_analiz():
                 sl.write(str(i)+":"+str(length[i])+"\n")
             else:
                 #print("Из",start,"в",i,"нет пути.")
+                pass
 
     def draws(self,G,listed,func):
         listn = []
